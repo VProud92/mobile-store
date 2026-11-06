@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Hub 92 - Mobile Accessories Store</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- Header & Navigation -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl font-black tracking-wider text-amber-400 mb-2 md:mb-0">⚡ Mobile Hub 92</h1>
+            <nav class="flex space-x-6 text-sm font-semibold">
+                <button onclick="switchTab('home')" class="hover:text-amber-400 transition">Shop</button>
+                <button onclick="switchTab('cart')" class="hover:text-amber-400 transition relative">
+                    Cart <span id="cart-badge" class="bg-amber-500 text-slate-900 px-1.5 py-0.5 rounded-full text-xs font-bold">0</span>
+                </button>
+                <button onclick="switchTab('about')" class="hover:text-amber-400 transition">About Us</button>
+                <button onclick="switchTab('contact')" class="hover:text-amber-400 transition">Contact Us</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content Area -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+
+        <!-- 1. HOME / PRODUCTS TAB -->
+        <section id="tab-home" class="page-section">
+            <div class="mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold mb-2">Premium Mobile Accessories</h2>
+                <p class="text-blue-100">Select multiple items below, check your cart, and order directly via WhatsApp!</p>
+            </div>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Products injected via JS -->
+            </div>
+        </section>
+
+        <!-- 2. CART TAB -->
+        <section id="tab-cart" class="page-section hidden">
+            <h2 class="text-2xl font-bold mb-6 border-b pb-2">🛒 Your Shopping Cart (Multi-Item)</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md">
+                    <div id="cart-items-list" class="divide-y">
+                        <p class="text-gray-500">Your cart is currently empty.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md h-fit">
+                    <h3 class="text-xl font-bold mb-4 border-b pb-2">Order Summary</h3>
+                    <div class="flex justify-between mb-4 text-lg font-bold">
+                        <span>Total Amount:</span>
+                        <span id="cart-grand-total" class="text-blue-600">Rs. 0</span>
+                    </div>
+                    <div class="space-y-3 mb-4">
+                        <input type="text" id="cust-name" placeholder="Full Name" class="w-full border p-2.5 rounded-lg text-sm">
+                        <input type="text" id="cust-phone" placeholder="WhatsApp Number (e.g. 03001234567)" class="w-full border p-2.5 rounded-lg text-sm">
+                        <textarea id="cust-address" placeholder="Complete Delivery Address" class="w-full border p-2.5 rounded-lg text-sm" rows="3"></textarea>
+                    </div>
+                    <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow transition">
+                        Confirm Order via WhatsApp 🚀
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ABOUT US TAB -->
+        <section id="tab-about" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold mb-4 text-slate-900">About Us - Mobile Hub 92</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Welcome to <strong>Mobile Hub 92</strong>, your trusted destination for top-quality mobile accessories. We are committed to bringing modern, durable, and affordable products right to your doorstep with seamless digital ordering workflows.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Our mission is to empower customers and small businesses through transparent pricing, high reliability, and quick communication via modern channels like WhatsApp.
+            </p>
+        </section>
+
+        <!-- 4. CONTACT US TAB (With Dedicated WhatsApp & Email Buttons) -->
+        <section id="tab-contact" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md text-center">
+            <h2 class="text-3xl font-bold mb-4 text-slate-900">Contact Us</h2>
+            <p class="text-gray-600 mb-8">Have any questions, bulk order inquiries, or need support? Reach out to us instantly through any of the channels below:</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-8">
+                <!-- WhatsApp Button -->
+                <a href="https://wa.me/923001234567" target="_blank" class="flex items-center justify-center space-x-3 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
+                    <span class="text-xl">💬</span>
+                    <span>Chat on WhatsApp</span>
+                </a>
+
+                <!-- Email Button -->
+                <a href="mailto:support@mobilehub92.com" class="flex items-center justify-center space-x-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
+                    <span class="text-xl">✉️</span>
+                    <span>Send an Email</span>
+                </a>
+            </div>
+
+            <div class="border-t pt-6 text-gray-500 text-sm">
+                <p>📍 <strong>Location:</strong> Karachi, Sindh, Pakistan</p>
+            </div>
+        </section>
+
+        <!-- 5. PRIVACY POLICY TAB -->
+        <section id="tab-privacy" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold mb-4 text-slate-900">Privacy Policy</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                At <strong>Mobile Hub 92</strong>, we respect your privacy. Any personal information you provide during checkout (such as your name, phone number, and delivery address) is strictly used for fulfilling your orders and is never shared with third parties.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                We use secure communication via WhatsApp to ensure your data stays private and safe between you and our store management.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Professional Footer with Links -->
+    <footer class="bg-slate-900 text-gray-300 py-10 mt-16 border-t border-slate-800">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+                <h3 class="text-xl font-bold text-amber-400 mb-3">⚡ Mobile Hub 92</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    Your ultimate destination for premium mobile accessories in Karachi. Smart shopping with direct WhatsApp checkout.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-md font-bold text-white mb-3 uppercase tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><button onclick="switchTab('home')" class="hover:text-amber-400 transition">Shop Products</button></li>
+                    <li><button onclick="switchTab('cart')" class="hover:text-amber-400 transition">Shopping Cart</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-md font-bold text-white mb-3 uppercase tracking-wider">Information</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><button onclick="switchTab('about')" class="hover:text-amber-400 transition">About Us</button></li>
+                    <li><button onclick="switchTab('contact')" class="hover:text-amber-400 transition">Contact Us</button></li>
+                    <li><button onclick="switchTab('privacy')" class="hover:text-amber-400 transition">Privacy Policy</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 pt-8 mt-8 border-t border-slate-800 text-center text-xs text-gray-500">
+            <p>&copy; 2026 Mobile Hub 92. All rights reserved. Designed for Smart E-Commerce.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Products Database
+        const products = [
+            { id: 1, name: "Fast USB-C Charger", price: 1200, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_1" },
+            { id: 2, name: "Braided Charging Cable", price: 450, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_2" },
+            { id: 3, name: "Wireless Bluetooth Earbuds", price: 2500, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_3" },
+            { id: 4, name: "Transparent Silicone Case", price: 350, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_4" }
+        ];
+
+        let cart = [];
+
+        // Tab Switcher Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render Products
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col justify-between border border-gray-200 hover:shadow-lg transition">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-48 object-cover bg-gray-200" onerror="this.src='https://via.placeholder.com/200?text=Accessory+Image'">
+                        <div class="p-4 flex flex-col flex-grow justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">${p.name}</h3>
+                                <p class="text-blue-600 font-semibold text-lg mb-4">Rs. ${p.price}</p>
+                            </div>
+                            <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-2 rounded-lg text-sm transition">
+                                Add to Cart 🛒
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Add to Cart
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartUI();
+            alert(`${product.name} has been added to your cart!`);
+        }
+
+        // Update Cart UI & Badge
+        function updateCartUI() {
+            const list = document.getElementById('cart-items-list');
+            const badge = document.getElementById('cart-badge');
+            const totalEl = document.getElementById('cart-grand-total');
+
+            let totalQty = 0;
+            let grandTotal = 0;
+
+            list.innerHTML = '';
+            if (cart.length === 0) {
+                list.innerHTML = `<p class="text-gray-500 py-4">Your cart is currently empty.</p>`;
+                badge.innerText = `0`;
+                totalEl.innerText = `Rs. 0`;
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                totalQty += item.qty;
+                grandTotal += item.price * item.qty;
+                list.innerHTML += `
+                    <div class="py-4 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold">${item.name}</h4>
+                            <p class="text-sm text-gray-500">Rs. ${item.price} × ${item.qty} = <strong class="text-gray-800">Rs. ${item.price * item.qty}</strong></p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="changeQty(${index}, 1)" class="bg-gray-200 px-2.5 py-1 rounded font-bold">+</button>
+                            <span>${item.qty}</span>
+                            <button onclick="changeQty(${index}, -1)" class="bg-gray-200 px-2.5 py-1 rounded font-bold">-</button>
+                            <button onclick="removeItem(${index})" class="text-red-500 font-bold text-sm ml-2">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            badge.innerText = totalQty;
+            totalEl.innerText = `Rs. ${grandTotal}`;
+        }
+
+        // Change Quantity
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        // Remove Item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        // WhatsApp Checkout
+        function checkoutWhatsApp() {
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+
+            if (!name || !phone || !address) {
+                alert("براہ کرم اپنا نام، واٹس ایپ نمبر اور مکمل ایڈریس درج کریں!");
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert("آپ کا کارٹ خالی ہے!");
+                return;
+            }
+
+            let msg = `*📦 New Order - Mobile Hub 92*\n\n*Customer:* ${name}\n*Phone:* ${phone}\n*Address:* ${address}\n\n*Ordered Items:*\n`;
+            let total = 0;
+
+            cart.forEach(item => {
+                msg += `- ${item.name} (${item.qty}x) = Rs. ${item.price * item.qty}\n`;
+                total += item.price * item.qty;
+            });
+
+            msg += `\n*Grand Total:* Rs. ${total}\n*Payment:* Cash on Delivery`;
+
+            const ownerPhone = "923001234567"; // اپنا واٹس ایپ نمبر یہاں لکھیں
+            window.open(`https://wa.me/${ownerPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // Initialize Store
+        renderProducts();
+    </script>
+</body>
+</html>
