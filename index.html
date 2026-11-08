@@ -4,15 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Hub 92 - Mobile Accessories Store</title>
+    <!-- Browser Tab Favicon (Dynamic SVG Spark Icon matching your logo) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%23facc15'/><path d='M50 20 C50 40 40 50 20 50 C40 50 50 60 50 80 C50 60 60 50 80 50 C60 50 50 40 50 20 Z' fill='%230f172a'/></svg>">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .product-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .product-img {
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+        #toast {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        /* Custom Logo Hover Effect */
+        .brand-logo {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .brand-logo:hover {
+            transform: scale(1.08) rotate(5deg);
+            box-shadow: 0 10px 20px -3px rgba(250, 204, 21, 0.4);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
 
-    <!-- Header & Navigation -->
-    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-            <h1 class="text-2xl font-black tracking-wider text-amber-400 mb-2 md:mb-0">⚡ Mobile Hub 92</h1>
+    <!-- Floating Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 opacity-0 pointer-events-none transform translate-y-4">
+        <span class="text-amber-400 text-lg">🛒</span>
+        <span id="toast-msg" class="text-sm font-semibold">Item added to cart successfully!</span>
+    </div>
+
+    <!-- Header & Navigation with Hover Logo -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50 border-b border-slate-800">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-2 md:mb-0">
+                <!-- Interactive Hover Logo Icon -->
+                <div class="brand-logo w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow-lg border border-amber-300/40 cursor-pointer">
+                    <svg class="w-7 h-7 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C12 8 8 12 2 12C8 12 12 16 12 22C12 16 16 12 22 12C16 12 12 8 12 2Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-wider text-amber-400 leading-none">MOBILE HUB</h1>
+                    <span class="text-xs tracking-widest text-gray-400 font-bold">92 STORE</span>
+                </div>
+            </div>
             <nav class="flex space-x-6 text-sm font-semibold">
                 <button onclick="switchTab('home')" class="hover:text-amber-400 transition">Shop</button>
                 <button onclick="switchTab('cart')" class="hover:text-amber-400 transition relative">
@@ -29,10 +74,32 @@
 
         <!-- 1. HOME / PRODUCTS TAB -->
         <section id="tab-home" class="page-section">
-            <div class="mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold mb-2">Premium Mobile Accessories</h2>
-                <p class="text-blue-100">Select multiple items below, check your cart, and order directly via WhatsApp!</p>
+            <!-- Hero Banner -->
+            <div class="mb-8 relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-slate-900 text-white p-8 md:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="absolute right-0 bottom-0 opacity-10 text-9xl font-black select-none pointer-events-none">92</div>
+                <div class="z-10 max-w-xl">
+                    <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block">Welcome to Mobile Hub 92</span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Premium Mobile Accessories <br><span class="text-amber-400">At Best Retail Prices</span></h2>
+                    <p class="text-blue-100 text-base mb-6 leading-relaxed">
+                        Explore our top-tier collection of high-speed chargers, durable cables, power banks, and audio gear. Select your items and order instantly via WhatsApp!
+                    </p>
+                    <button onclick="document.getElementById('product-grid').scrollIntoView({behavior: 'smooth'})" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+                        Shop Now 👇
+                    </button>
+                </div>
+                <!-- Hero Section Featured Hover Logo Badge -->
+                <div class="z-10 bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-2xl flex flex-col items-center justify-center text-center">
+                    <div class="brand-logo w-20 h-20 rounded-3xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow-xl mb-4 cursor-pointer">
+                        <svg class="w-12 h-12 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C12 8 8 12 2 12C8 12 12 16 12 22C12 16 16 12 22 12C16 12 12 8 12 2Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-black text-amber-400 tracking-wider">MOBILE HUB 92</h3>
+                    <p class="text-xs text-gray-300 mt-1">Your Reliable Choice</p>
+                </div>
             </div>
+
+            <!-- Product Grid -->
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <!-- Products injected via JS -->
             </div>
@@ -40,25 +107,25 @@
 
         <!-- 2. CART TAB -->
         <section id="tab-cart" class="page-section hidden">
-            <h2 class="text-2xl font-bold mb-6 border-b pb-2">🛒 Your Shopping Cart (Multi-Item)</h2>
+            <h2 class="text-2xl font-bold mb-6 border-b pb-2">🛒 Your Shopping Cart</h2>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md">
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
                     <div id="cart-items-list" class="divide-y">
-                        <p class="text-gray-500">Your cart is currently empty.</p>
+                        <p class="text-gray-500 text-center py-4">Your cart is currently empty.</p>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md h-fit">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 h-fit">
                     <h3 class="text-xl font-bold mb-4 border-b pb-2">Order Summary</h3>
                     <div class="flex justify-between mb-4 text-lg font-bold">
                         <span>Total Amount:</span>
                         <span id="cart-grand-total" class="text-blue-600">Rs. 0</span>
                     </div>
                     <div class="space-y-3 mb-4">
-                        <input type="text" id="cust-name" placeholder="Full Name" class="w-full border p-2.5 rounded-lg text-sm">
-                        <input type="text" id="cust-phone" placeholder="WhatsApp Number (e.g. 03001234567)" class="w-full border p-2.5 rounded-lg text-sm">
-                        <textarea id="cust-address" placeholder="Complete Delivery Address" class="w-full border p-2.5 rounded-lg text-sm" rows="3"></textarea>
+                        <input type="text" id="cust-name" placeholder="Full Name" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                        <input type="text" id="cust-phone" placeholder="WhatsApp Number (e.g. 03042118440)" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                        <textarea id="cust-address" placeholder="Complete Delivery Address" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600" rows="3"></textarea>
                     </div>
-                    <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow transition">
+                    <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl shadow-md transition">
                         Confirm Order via WhatsApp 🚀
                     </button>
                 </div>
@@ -66,42 +133,41 @@
         </section>
 
         <!-- 3. ABOUT US TAB -->
-        <section id="tab-about" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+        <section id="tab-about" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
             <h2 class="text-3xl font-bold mb-4 text-slate-900">About Us - Mobile Hub 92</h2>
             <p class="text-gray-700 leading-relaxed mb-4">
-                Welcome to <strong>Mobile Hub 92</strong>, your trusted destination for top-quality mobile accessories. We are committed to bringing modern, durable, and affordable products right to your doorstep with seamless digital ordering workflows.
+                Welcome to <strong>Mobile Hub 92</strong>, your trusted destination for top-quality mobile accessories in Pakistan. We offer an extensive range of charging solutions, audio accessories, and high-grade items at competitive retail prices.
             </p>
             <p class="text-gray-700 leading-relaxed">
-                Our mission is to empower customers and small businesses through transparent pricing, high reliability, and quick communication via modern channels like WhatsApp.
+                Our mission is to make high-quality mobile phone accessories accessible to everyone with seamless digital ordering and fast communication via WhatsApp.
             </p>
         </section>
 
-        <!-- 4. CONTACT US TAB (With Dedicated WhatsApp & Email Buttons) -->
-        <section id="tab-contact" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md text-center">
+        <!-- 4. CONTACT US TAB -->
+        <section id="tab-contact" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200 text-center">
             <h2 class="text-3xl font-bold mb-4 text-slate-900">Contact Us</h2>
             <p class="text-gray-600 mb-8">Have any questions, bulk order inquiries, or need support? Reach out to us instantly through any of the channels below:</p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-6 mb-8">
-                <!-- WhatsApp Button -->
-                <a href="https://wa.me/923001234567" target="_blank" class="flex items-center justify-center space-x-3 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
+                <a href="https://wa.me/923042118440" target="_blank" class="flex items-center justify-center space-x-3 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
                     <span class="text-xl">💬</span>
-                    <span>Chat on WhatsApp</span>
+                    <span>Chat on WhatsApp (03042118440)</span>
                 </a>
-
-                <!-- Email Button -->
-                <a href="mailto:support@mobilehub92.com" class="flex items-center justify-center space-x-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
+                <a href="mailto:hubmobile9221@gmail.com" class="flex items-center justify-center space-x-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
                     <span class="text-xl">✉️</span>
                     <span>Send an Email</span>
                 </a>
             </div>
 
-            <div class="border-t pt-6 text-gray-500 text-sm">
+            <div class="border-t pt-6 text-gray-500 text-sm space-y-2">
                 <p>📍 <strong>Location:</strong> Karachi, Sindh, Pakistan</p>
+                <p>📞 <strong>Mobile / WhatsApp:</strong> 03042118440</p>
+                <p>✉️ <strong>Email:</strong> hubmobile9221@gmail.com</p>
             </div>
         </section>
 
         <!-- 5. PRIVACY POLICY TAB -->
-        <section id="tab-privacy" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+        <section id="tab-privacy" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
             <h2 class="text-3xl font-bold mb-4 text-slate-900">Privacy Policy</h2>
             <p class="text-gray-700 leading-relaxed mb-4">
                 At <strong>Mobile Hub 92</strong>, we respect your privacy. Any personal information you provide during checkout (such as your name, phone number, and delivery address) is strictly used for fulfilling your orders and is never shared with third parties.
@@ -113,13 +179,20 @@
 
     </main>
 
-    <!-- Professional Footer with Links -->
+    <!-- Professional Footer with Logo -->
     <footer class="bg-slate-900 text-gray-300 py-10 mt-16 border-t border-slate-800">
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
             <div>
-                <h3 class="text-xl font-bold text-amber-400 mb-3">⚡ Mobile Hub 92</h3>
+                <h3 class="text-xl font-bold text-amber-400 mb-3 flex items-center justify-center md:justify-start gap-2">
+                    <div class="brand-logo w-7 h-7 rounded-lg bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow">
+                        <svg class="w-4 h-4 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C12 8 8 12 2 12C8 12 12 16 12 22C12 16 16 12 22 12C16 12 12 8 12 2Z"/>
+                        </svg>
+                    </div> 
+                    Mobile Hub 92
+                </h3>
                 <p class="text-sm text-gray-400 leading-relaxed">
-                    Your ultimate destination for premium mobile accessories in Karachi. Smart shopping with direct WhatsApp checkout.
+                    Your reliable choice for premium mobile accessories in Karachi. Smart shopping with direct WhatsApp checkout.
                 </p>
             </div>
             <div>
@@ -145,37 +218,85 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // Products Database
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzfAsHMq2CAGkAoa6A0tCUayNvMsP-3cTo_vrJNFoBhQNQIj8dEhDmw3dD2sI-I8_In/exec";
+
         const products = [
-            { id: 1, name: "Fast USB-C Charger", price: 1200, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_1" },
-            { id: 2, name: "Braided Charging Cable", price: 450, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_2" },
-            { id: 3, name: "Wireless Bluetooth Earbuds", price: 2500, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_3" },
-            { id: 4, name: "Transparent Silicone Case", price: 350, image: "https://lh3.googleusercontent.com/d/YOUR_FILE_ID_4" }
+            { id: 1, name: "Handfree CEL-12", price: 300, image: "https://lh3.googleusercontent.com/d/1fUPN9RrzyXK1Wz-NxCvJRSkt4H6PGpTI" },
+            { id: 2, name: "Handfree CL-13-T", price: 650, image: "https://lh3.googleusercontent.com/d/1VWbmo9XwdXnS82tuLsT87WE9I_ovcL-f" },
+            { id: 3, name: "Handfree CEL-14", price: 350, image: "https://lh3.googleusercontent.com/d/1UlPwUHDsEi4b1c0zDwanUVnAgAmSKNSZ" },
+            { id: 4, name: "Handfree CEL-15", price: 280, image: "https://lh3.googleusercontent.com/d/1-Tu6LvK-8kLWVnd6NzgpwQR8bK2fQ1hQ" },
+            { id: 5, name: "Handfree CEL-16", price: 280, image: "https://lh3.googleusercontent.com/d/17hrqrFh0Pfkjxbc8BWk14v2Kk-UTX5fE" },
+            { id: 6, name: "Handfree CEL-17", price: 300, image: "https://lh3.googleusercontent.com/d/11N2qwUN2Hr91ZRILkUvXsz69hQ-QNuLP" },
+            { id: 7, name: "Neckband CEL-0100", price: 1600, image: "https://lh3.googleusercontent.com/d/13lRvzzTYdjpS8-SI3BUIaoK_o7zMU5T3" },
+            { id: 8, name: "Cable CEL-12A (2.4AMP)", price: 200, image: "https://lh3.googleusercontent.com/d/1u2dPMij-hoP0CXqv5PDGZ_iUQQMDwQ3-" },
+            { id: 9, name: "Cable CEL-12T (2.4AMP)", price: 220, image: "https://lh3.googleusercontent.com/d/1UTBqSJm_CND0MtjcJbME8mdFtD_aodyu" },
+            { id: 10, name: "Router Cable CEL-8780", price: 350, image: "https://lh3.googleusercontent.com/d/1jXEbKIZx_2ZnT-9TBzACpSESWPFUgRAI" },
+            { id: 11, name: "Cable CEL-09A (3 AMP)", price: 200, image: "https://lh3.googleusercontent.com/d/16HjmSzo1WzpPVAsQ3xR9ctfvbSOxf5Y9" },
+            { id: 12, name: "Cable CEL-09T (3 AMP)", price: 220, image: "https://lh3.googleusercontent.com/d/1Jj0FJhxSLrwvNO6Y5QasqYERIAPQx5m9" },
+            { id: 13, name: "Cable CEL-777 (Micro)", price: 150, image: "https://lh3.googleusercontent.com/d/1Vm1J_ll6-pOFO5szLfBaKZo0yXjdUaer" },
+            { id: 14, name: "Cable CEL-777 (Type C)", price: 160, image: "https://lh3.googleusercontent.com/d/1-iyQZkpJGZoUyoq-8MNgoxNoE_m6XwnJ" },
+            { id: 15, name: "Cable CEL-777 (iPhone)", price: 190, image: "https://lh3.googleusercontent.com/d/1fUtoOx5cq3XLdJRhS-_tuj9KhkmHJYwW" },
+            { id: 16, name: "Cable CEL-777 (C to C)", price: 230, image: "https://lh3.googleusercontent.com/d/1OUFEupJ6GI7cYoRDNbg9YUqhQ4_6lNF7" },
+            { id: 17, name: "Cable CEL-777 (C to iPhone)", price: 300, image: "https://lh3.googleusercontent.com/d/1JYTqzIZRbDiscu1BFVEGb-DJuhN0k6rR" },
+            { id: 18, name: "Cable CEL-3350 (60W C to C)", price: 360, image: "https://lh3.googleusercontent.com/d/1VwNjg2j4Wcp384pd7vrRJuNg0eR4A111" },
+            { id: 19, name: "Cable CEL-757 (Micro)", price: 230, image: "https://lh3.googleusercontent.com/d/1q_06gnGVrHWglNKGPFBlo2zbj3jenc8r" },
+            { id: 20, name: "Cable CEL-757 (40W Type C)", price: 280, image: "https://lh3.googleusercontent.com/d/1LoS-t7642Cf6APim4VEXRc9lQNVXh13D" },
+            { id: 21, name: "Cable CEL-2250 (C to iPhone)", price: 250, image: "https://lh3.googleusercontent.com/d/1BkGiX2FAJGL2pOyuM0vU3flt2yJ9UnfH" },
+            { id: 22, name: "Cable CEL-2250 (40W Type C)", price: 180, image: "https://lh3.googleusercontent.com/d/18Ay3zXs3UnbcGmg-7BIcW1xT521vkcJ2" },
+            { id: 23, name: "Cable CEL-2250 (60W C to C)", price: 190, image: "https://lh3.googleusercontent.com/d/1B6QQXnp_XvW9N0Mb67HXwQoci0ZYYBln" },
+            { id: 24, name: "Cable CEL-7790C", price: 350, image: "https://lh3.googleusercontent.com/d/1wcTy1hylChC0ZY6pTFfku12vh4E_FQxe" },
+            { id: 25, name: "Audio + Charger CEL-201", price: 400, image: "https://lh3.googleusercontent.com/d/1PobkTwJmR8o6CEVNTEFvP_tS-krOxSRR" },
+            { id: 26, name: "Cable CEL-033T (3 AMP)", price: 500, image: "https://lh3.googleusercontent.com/d/17F3cHVtkZKyFDv3U7Bi1HFvMFSfNOz77" },
+            { id: 27, name: "Cable CEL-033L (Nylon Braided)", price: 500, image: "https://lh3.googleusercontent.com/d/1fWYwZgoMuYsflfURTgdFHX6GpnNe7q6b" },
+            { id: 28, name: "Cable CEL-599 Series", price: 380, image: "https://lh3.googleusercontent.com/d/1esbDuhyXGCt9EfcR3WL28WQ3jwYhoEaB" },
+            { id: 29, name: "Charger CEL-024", price: 550, image: "https://lh3.googleusercontent.com/d/1MAmDK_iEfRaoonGwOMHKfB61P6OUX51a" },
+            { id: 30, name: "Charger CEL-030 (20W)", price: 950, image: "https://lh3.googleusercontent.com/d/1fUPN9RrzyXK1Wz-NxCvJRSkt4H6PGpTI" },
+            { id: 31, name: "Charger CEL-025", price: 650, image: "https://lh3.googleusercontent.com/d/1VWbmo9XwdXnS82tuLsT87WE9I_ovcL-f" },
+            { id: 32, name: "Charger CEL-027 (2.4A 2USB)", price: 500, image: "https://lh3.googleusercontent.com/d/1UlPwUHDsEi4b1c0zDwanUVnAgAmSKNSZ" },
+            { id: 33, name: "Charger CEL-026 (2.4A 2USB)", price: 500, image: "https://lh3.googleusercontent.com/d/1-Tu6LvK-8kLWVnd6NzgpwQR8bK2fQ1hQ" },
+            { id: 34, name: "Charger CEL-028 (2.1A 2USB)", price: 500, image: "https://lh3.googleusercontent.com/d/17hrqrFh0Pfkjxbc8BWk14v2Kk-UTX5fE" },
+            { id: 35, name: "Charger CEL-725 (18W Glide)", price: 550, image: "https://lh3.googleusercontent.com/d/11N2qwUN2Hr91ZRILkUvXsz69hQ-QNuLP" },
+            { id: 36, name: "Charger CEL-710 (20W)", price: 650, image: "https://lh3.googleusercontent.com/d/13lRvzzTYdjpS8-SI3BUIaoK_o7zMU5T3" },
+            { id: 37, name: "Charger CEL-45 (45W)", price: 1800, image: "https://lh3.googleusercontent.com/d/1u2dPMij-hoP0CXqv5PDGZ_iUQQMDwQ3-" },
+            { id: 38, name: "Charger CEL-3535 (35W)", price: 1350, image: "https://lh3.googleusercontent.com/d/1UTBqSJm_CND0MtjcJbME8mdFtD_aodyu" },
+            { id: 39, name: "Desktop Charger CEL-111 (GaN 140W)", price: 11000, image: "https://lh3.googleusercontent.com/d/1jXEbKIZx_2ZnT-9TBzACpSESWPFUgRAI" },
+            { id: 40, name: "iPhone 15 Adaptor CEL-666 (20W PD)", price: 2400, image: "https://lh3.googleusercontent.com/d/16HjmSzo1WzpPVAsQ3xR9ctfvbSOxf5Y9" },
+            { id: 41, name: "Power Bank CEL-10 (10000mAh 22.5W)", price: 3100, image: "https://lh3.googleusercontent.com/d/1Jj0FJhxSLrwvNO6Y5QasqYERIAPQx5m9" },
+            { id: 42, name: "Power Bank CEL-20 (20000mAh 22.5W)", price: 4300, image: "https://lh3.googleusercontent.com/d/1Vm1J_ll6-pOFO5szLfBaKZo0yXjdUaer" },
+            { id: 43, name: "Power Bank CEL-5 (30000mAh 65W)", price: 5400, image: "https://lh3.googleusercontent.com/d/1-iyQZkpJGZoUyoq-8MNgoxNoE_m6XwnJ" },
+            { id: 44, name: "Power Bank CEL-106 (50000mAh 22.5W)", price: 4000, image: "https://lh3.googleusercontent.com/d/1fUtoOx5cq3XLdJRhS-_tuj9KhkmHJYwW" },
+            { id: 45, name: "Power Bank CEL-555 (10000mAh)", price: 10500, image: "https://lh3.googleusercontent.com/d/1OUFEupJ6GI7cYoRDNbg9YUqhQ4_6lNF7" },
+            { id: 46, name: "Headphone CEL-101", price: 2200, image: "https://lh3.googleusercontent.com/d/1JYTqzIZRbDiscu1BFVEGb-DJuhN0k6rR" },
+            { id: 47, name: "OTG Connector CEL-301", price: 500, image: "https://lh3.googleusercontent.com/d/1VwNjg2j4Wcp384pd7vrRJuNg0eR4A111" },
+            { id: 48, name: "Mouse CEL-001", price: 650, image: "https://lh3.googleusercontent.com/d/1q_06gnGVrHWglNKGPFBlo2zbj3jenc8r" },
+            { id: 49, name: "Battery BL-5C (1000mAh)", price: 300, image: "https://lh3.googleusercontent.com/d/1LoS-t7642Cf6APim4VEXRc9lQNVXh13D" },
+            { id: 50, name: "Battery BL-25BI", price: 300, image: "https://lh3.googleusercontent.com/d/1BkGiX2FAJGL2pOyuM0vU3flt2yJ9UnfH" },
+            { id: 51, name: "Battery BL-5E", price: 300, image: "https://lh3.googleusercontent.com/d/18Ay3zXs3UnbcGmg-7BIcW1xT521vkcJ2" }
         ];
 
         let cart = [];
 
-        // Tab Switcher Logic
         function switchTab(tabId) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Render Products
         function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
             products.forEach(p => {
                 grid.innerHTML += `
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col justify-between border border-gray-200 hover:shadow-lg transition">
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-48 object-cover bg-gray-200" onerror="this.src='https://via.placeholder.com/200?text=Accessory+Image'">
-                        <div class="p-4 flex flex-col flex-grow justify-between">
+                    <div class="product-card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col justify-between">
+                        <div class="overflow-hidden bg-gray-100 h-48 flex items-center justify-center">
+                            <img src="${p.image}" alt="${p.name}" class="product-img w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/200?text=Accessory+Image'">
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow justify-between">
                             <div>
-                                <h3 class="font-bold text-lg mb-1">${p.name}</h3>
-                                <p class="text-blue-600 font-semibold text-lg mb-4">Rs. ${p.price}</p>
+                                <h3 class="font-bold text-gray-900 text-base mb-1">${p.name}</h3>
+                                <p class="text-blue-600 font-extrabold text-lg mb-4">Rs. ${p.price}</p>
                             </div>
-                            <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-2 rounded-lg text-sm transition">
+                            <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-sm">
                                 Add to Cart 🛒
                             </button>
                         </div>
@@ -184,7 +305,19 @@
             });
         }
 
-        // Add to Cart
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.innerText = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 2500);
+        }
+
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             const item = cart.find(i => i.id === id);
@@ -194,10 +327,9 @@
                 cart.push({ ...product, qty: 1 });
             }
             updateCartUI();
-            alert(`${product.name} has been added to your cart!`);
+            showToast(`${product.name} added to cart!`);
         }
 
-        // Update Cart UI & Badge
         function updateCartUI() {
             const list = document.getElementById('cart-items-list');
             const badge = document.getElementById('cart-badge');
@@ -208,7 +340,7 @@
 
             list.innerHTML = '';
             if (cart.length === 0) {
-                list.innerHTML = `<p class="text-gray-500 py-4">Your cart is currently empty.</p>`;
+                list.innerHTML = `<p class="text-gray-500 text-center py-6">Your cart is currently empty.</p>`;
                 badge.innerText = `0`;
                 totalEl.innerText = `Rs. 0`;
                 return;
@@ -218,16 +350,19 @@
                 totalQty += item.qty;
                 grandTotal += item.price * item.qty;
                 list.innerHTML += `
-                    <div class="py-4 flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold">${item.name}</h4>
-                            <p class="text-sm text-gray-500">Rs. ${item.price} × ${item.qty} = <strong class="text-gray-800">Rs. ${item.price * item.qty}</strong></p>
-                        </div>
+                    <div class="py-4 flex items-center justify-between gap-4">
                         <div class="flex items-center space-x-3">
-                            <button onclick="changeQty(${index}, 1)" class="bg-gray-200 px-2.5 py-1 rounded font-bold">+</button>
-                            <span>${item.qty}</span>
-                            <button onclick="changeQty(${index}, -1)" class="bg-gray-200 px-2.5 py-1 rounded font-bold">-</button>
-                            <button onclick="removeItem(${index})" class="text-red-500 font-bold text-sm ml-2">Remove</button>
+                            <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl border bg-gray-100" onerror="this.src='https://via.placeholder.com/100?text=Img'">
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm md:text-base">${item.name}</h4>
+                                <p class="text-xs md:text-sm text-gray-500">Rs. ${item.price} × ${item.qty} = <strong class="text-blue-600">Rs. ${item.price * item.qty}</strong></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="changeQty(${index}, 1)" class="bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-lg font-bold text-sm transition flex items-center justify-center">+</button>
+                            <span class="w-6 text-center font-semibold text-sm">${item.qty}</span>
+                            <button onclick="changeQty(${index}, -1)" class="bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-lg font-bold text-sm transition flex items-center justify-center">-</button>
+                            <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 font-bold text-xs ml-3">Remove</button>
                         </div>
                     </div>
                 `;
@@ -237,7 +372,6 @@
             totalEl.innerText = `Rs. ${grandTotal}`;
         }
 
-        // Change Quantity
         function changeQty(index, delta) {
             cart[index].qty += delta;
             if (cart[index].qty <= 0) {
@@ -246,13 +380,11 @@
             updateCartUI();
         }
 
-        // Remove Item
         function removeItem(index) {
             cart.splice(index, 1);
             updateCartUI();
         }
 
-        // WhatsApp Checkout
         function checkoutWhatsApp() {
             const name = document.getElementById('cust-name').value.trim();
             const phone = document.getElementById('cust-phone').value.trim();
@@ -268,21 +400,43 @@
                 return;
             }
 
-            let msg = `*📦 New Order - Mobile Hub 92*\n\n*Customer:* ${name}\n*Phone:* ${phone}\n*Address:* ${address}\n\n*Ordered Items:*\n`;
+            let itemsSummary = "";
             let total = 0;
 
             cart.forEach(item => {
-                msg += `- ${item.name} (${item.qty}x) = Rs. ${item.price * item.qty}\n`;
+                itemsSummary += `${item.name} (${item.qty}x), `;
                 total += item.price * item.qty;
             });
 
+            const orderData = {
+                name: name,
+                phone: phone,
+                address: address,
+                items: itemsSummary,
+                total: total
+            };
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            }).then(() => {
+                console.log("Order logged to sheet!");
+            }).catch(error => {
+                console.error("Error:", error);
+            });
+
+            let msg = `*📦 New Order - Mobile Hub 92*\n\n*Customer:* ${name}\n*Phone:* ${phone}\n*Address:* ${address}\n\n*Ordered Items:*\n`;
+            cart.forEach(item => {
+                msg += `- ${item.name} (${item.qty}x) = Rs. ${item.price * item.qty}\n`;
+            });
             msg += `\n*Grand Total:* Rs. ${total}\n*Payment:* Cash on Delivery`;
 
-            const ownerPhone = "923001234567"; // اپنا واٹس ایپ نمبر یہاں لکھیں
+            const ownerPhone = "923042118440"; 
             window.open(`https://wa.me/${ownerPhone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Initialize Store
         renderProducts();
     </script>
 </body>
