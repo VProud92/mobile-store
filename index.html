@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Hub 92 - Mobile Accessories Store</title>
-    <!-- Browser Tab Favicon (Dynamic SVG Spark Icon matching your logo) -->
+    <!-- Browser Tab Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%23facc15'/><path d='M50 20 C50 40 40 50 20 50 C40 50 50 60 50 80 C50 60 60 50 80 50 C60 50 50 40 50 20 Z' fill='%230f172a'/></svg>">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,19 +13,18 @@
             transition: all 0.3s ease-in-out;
         }
         .product-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1);
         }
         .product-img {
             transition: transform 0.5s ease;
         }
         .product-card:hover .product-img {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
         #toast {
             transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
-        /* Custom Logo Hover Effect */
         .brand-logo {
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
@@ -33,9 +32,27 @@
             transform: scale(1.08) rotate(5deg);
             box-shadow: 0 10px 20px -3px rgba(250, 204, 21, 0.4);
         }
+        
+        /* Slower Continuous Moving Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite; /* Increased duration for slower speed */
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- Top Moving Announcement Bar (Slower Speed) -->
+    <div class="bg-amber-400 text-slate-900 font-bold text-xs md:text-sm py-1.5 px-4 shadow-inner overflow-hidden whitespace-nowrap sticky top-0 z-50">
+        <div class="animate-marquee">
+            📢 خوش آمدید! 2,000 روپے سے کم کا پارسل نہیں بھیجا جائے گا &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; Minimum Order Limit is Rs. 2,000 for Delivery &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; آرڈر کنفرم کرنے کے لیے کم از کم 2000 روپے کی خریداری لازمی ہے &nbsp;&nbsp;&nbsp; •
+        </div>
+    </div>
 
     <!-- Floating Toast Notification -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 opacity-0 pointer-events-none transform translate-y-4">
@@ -43,19 +60,18 @@
         <span id="toast-msg" class="text-sm font-semibold">Item added to cart successfully!</span>
     </div>
 
-    <!-- Header & Navigation with Hover Logo -->
-    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50 border-b border-slate-800">
-        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
-            <div class="flex items-center space-x-3 mb-2 md:mb-0">
-                <!-- Interactive Hover Logo Icon -->
-                <div class="brand-logo w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow-lg border border-amber-300/40 cursor-pointer">
-                    <svg class="w-7 h-7 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
+    <!-- Header & Navigation -->
+    <header class="bg-slate-900 text-white shadow-md sticky top-[32px] z-40 border-b border-slate-800">
+        <div class="container mx-auto px-4 py-2.5 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-1 md:mb-0">
+                <div class="brand-logo w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow border border-amber-300/40 cursor-pointer">
+                    <svg class="w-6 h-6 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C12 8 8 12 2 12C8 12 12 16 12 22C12 16 16 12 22 12C16 12 12 8 12 2Z"/>
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-wider text-amber-400 leading-none">MOBILE HUB</h1>
-                    <span class="text-xs tracking-widest text-gray-400 font-bold">92 STORE</span>
+                    <h1 class="text-lg font-extrabold tracking-wider text-amber-400 leading-none">MOBILE HUB</h1>
+                    <span class="text-[10px] tracking-widest text-gray-400 font-bold">92 STORE</span>
                 </div>
             </div>
             <nav class="flex space-x-6 text-sm font-semibold">
@@ -69,121 +85,103 @@
         </div>
     </header>
 
-    <!-- Main Dynamic Content Area -->
-    <main class="container mx-auto px-4 py-8 flex-grow">
+    <!-- Main Dynamic Content Area (Compact Spacing) -->
+    <main class="container mx-auto px-4 py-3 flex-grow">
 
         <!-- 1. HOME / PRODUCTS TAB -->
         <section id="tab-home" class="page-section">
-            <!-- Hero Banner -->
-            <div class="mb-8 relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-slate-900 text-white p-8 md:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="mb-4 relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-slate-900 text-white p-5 md:p-7 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="absolute right-0 bottom-0 opacity-10 text-9xl font-black select-none pointer-events-none">92</div>
                 <div class="z-10 max-w-xl">
-                    <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block">Welcome to Mobile Hub 92</span>
-                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Premium Mobile Accessories <br><span class="text-amber-400">At Best Retail Prices</span></h2>
-                    <p class="text-blue-100 text-base mb-6 leading-relaxed">
-                        Explore our top-tier collection of high-speed chargers, durable cables, power banks, and audio gear. Select your items and order instantly via WhatsApp!
+                    <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-2 inline-block">Minimum Order Rs. 2000</span>
+                    <h2 class="text-2xl md:text-4xl font-extrabold mb-2 leading-tight">Premium Mobile Accessories <br><span class="text-amber-400">At Best Retail Prices</span></h2>
+                    <p class="text-blue-100 text-sm md:text-base mb-3 leading-relaxed">
+                        Explore our top-tier collection of chargers, cables, power banks, and audio gear. (Note: Minimum order amount is Rs. 2,000).
                     </p>
-                    <button onclick="document.getElementById('product-grid').scrollIntoView({behavior: 'smooth'})" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+                    <button onclick="document.getElementById('product-grid').scrollIntoView({behavior: 'smooth'})" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-5 py-2.5 rounded-xl shadow transition transform hover:-translate-y-0.5 text-sm">
                         Shop Now 👇
                     </button>
                 </div>
-                <!-- Hero Section Featured Hover Logo Badge -->
-                <div class="z-10 bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-2xl flex flex-col items-center justify-center text-center">
-                    <div class="brand-logo w-20 h-20 rounded-3xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow-xl mb-4 cursor-pointer">
-                        <svg class="w-12 h-12 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
+                <div class="z-10 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/20 shadow-xl flex flex-col items-center justify-center text-center">
+                    <div class="brand-logo w-16 h-16 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow mb-2 cursor-pointer">
+                        <svg class="w-10 h-10 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C12 8 8 12 2 12C8 12 12 16 12 22C12 16 16 12 22 12C16 12 12 8 12 2Z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-black text-amber-400 tracking-wider">MOBILE HUB 92</h3>
-                    <p class="text-xs text-gray-300 mt-1">Your Reliable Choice</p>
+                    <h3 class="text-base font-black text-amber-400 tracking-wider">MOBILE HUB 92</h3>
+                    <p class="text-[11px] text-gray-300">Wholesale & Retail</p>
                 </div>
             </div>
 
             <!-- Product Grid -->
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <!-- Products injected via JS -->
             </div>
         </section>
 
         <!-- 2. CART TAB -->
         <section id="tab-cart" class="page-section hidden">
-            <h2 class="text-2xl font-bold mb-6 border-b pb-2">🛒 Your Shopping Cart</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">🛒 Your Shopping Cart</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
                     <div id="cart-items-list" class="divide-y">
-                        <p class="text-gray-500 text-center py-4">Your cart is currently empty.</p>
+                        <p class="text-gray-500 text-center py-4 text-sm">Your cart is currently empty.</p>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 h-fit">
-                    <h3 class="text-xl font-bold mb-4 border-b pb-2">Order Summary</h3>
-                    <div class="flex justify-between mb-4 text-lg font-bold">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 h-fit">
+                    <h3 class="text-xl font-bold mb-3 border-b pb-2">Order Summary</h3>
+                    <div class="flex justify-between mb-2 text-lg font-bold">
                         <span>Total Amount:</span>
                         <span id="cart-grand-total" class="text-blue-600">Rs. 0</span>
                     </div>
-                    <div class="space-y-3 mb-4">
-                        <input type="text" id="cust-name" placeholder="Full Name" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600">
-                        <input type="text" id="cust-phone" placeholder="WhatsApp Number (e.g. 03042118440)" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600">
-                        <textarea id="cust-address" placeholder="Complete Delivery Address" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600" rows="3"></textarea>
+                    <p id="min-order-warning" class="text-xs text-red-500 font-bold mb-3 hidden">⚠️ کم از کم آرڈر 2,000 روپے کا ہونا ضروری ہے!</p>
+                    
+                    <div class="space-y-3 mb-3">
+                        <input type="text" id="cust-name" oninput="validateCheckout()" placeholder="Full Name" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                        <input type="text" id="cust-phone" oninput="validateCheckout()" placeholder="WhatsApp Number (03042118440)" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600">
+                        <textarea id="cust-address" oninput="validateCheckout()" placeholder="Complete Delivery Address" class="w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-600" rows="2"></textarea>
                     </div>
-                    <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl shadow-md transition">
+                    <button id="checkout-btn" onclick="checkoutWhatsApp()" disabled class="w-full bg-gray-300 text-gray-500 font-bold py-3.5 rounded-xl shadow-none cursor-not-allowed transition text-sm">
                         Confirm Order via WhatsApp 🚀
                     </button>
+                    <p id="checkout-hint" class="text-xs text-center text-gray-400 mt-2">براہ کرم معلومات درج کریں اور بل Rs. 2000 پورا کریں</p>
                 </div>
             </div>
         </section>
 
         <!-- 3. ABOUT US TAB -->
-        <section id="tab-about" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-4 text-slate-900">About Us - Mobile Hub 92</h2>
-            <p class="text-gray-700 leading-relaxed mb-4">
-                Welcome to <strong>Mobile Hub 92</strong>, your trusted destination for top-quality mobile accessories in Pakistan. We offer an extensive range of charging solutions, audio accessories, and high-grade items at competitive retail prices.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-                Our mission is to make high-quality mobile phone accessories accessible to everyone with seamless digital ordering and fast communication via WhatsApp.
+        <section id="tab-about" class="page-section hidden max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-3 text-slate-900">About Us - Mobile Hub 92</h2>
+            <p class="text-gray-700 text-base leading-relaxed">
+                Welcome to <strong>Mobile Hub 92</strong>, your trusted destination for top-quality mobile accessories in Pakistan. Minimum order limit is Rs. 2,000.
             </p>
         </section>
 
         <!-- 4. CONTACT US TAB -->
-        <section id="tab-contact" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200 text-center">
-            <h2 class="text-3xl font-bold mb-4 text-slate-900">Contact Us</h2>
-            <p class="text-gray-600 mb-8">Have any questions, bulk order inquiries, or need support? Reach out to us instantly through any of the channels below:</p>
-            
-            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-8">
-                <a href="https://wa.me/923042118440" target="_blank" class="flex items-center justify-center space-x-3 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
-                    <span class="text-xl">💬</span>
-                    <span>Chat on WhatsApp (03042118440)</span>
-                </a>
-                <a href="mailto:hubmobile9221@gmail.com" class="flex items-center justify-center space-x-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5">
-                    <span class="text-xl">✉️</span>
-                    <span>Send an Email</span>
-                </a>
-            </div>
-
-            <div class="border-t pt-6 text-gray-500 text-sm space-y-2">
-                <p>📍 <strong>Location:</strong> Karachi, Sindh, Pakistan</p>
-                <p>📞 <strong>Mobile / WhatsApp:</strong> 03042118440</p>
-                <p>✉️ <strong>Email:</strong> hubmobile9221@gmail.com</p>
-            </div>
+        <section id="tab-contact" class="page-section hidden max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-sm border border-gray-200 text-center">
+            <h2 class="text-2xl font-bold mb-3 text-slate-900">Contact Us</h2>
+            <p class="text-gray-600 text-base mb-4">Have any questions or need support? Reach out to us instantly:</p>
+            <a href="https://wa.me/923042118440" target="_blank" class="inline-flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3.5 rounded-xl shadow transition text-base">
+                <span>💬</span>
+                <span>Chat on WhatsApp (03042118440)</span>
+            </a>
         </section>
 
         <!-- 5. PRIVACY POLICY TAB -->
-        <section id="tab-privacy" class="page-section hidden max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-4 text-slate-900">Privacy Policy</h2>
-            <p class="text-gray-700 leading-relaxed mb-4">
-                At <strong>Mobile Hub 92</strong>, we respect your privacy. Any personal information you provide during checkout (such as your name, phone number, and delivery address) is strictly used for fulfilling your orders and is never shared with third parties.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-                We use secure communication via WhatsApp to ensure your data stays private and safe between you and our store management.
+        <section id="tab-privacy" class="page-section hidden max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-3 text-slate-900">Privacy Policy</h2>
+            <p class="text-gray-700 text-base leading-relaxed">
+                At <strong>Mobile Hub 92</strong>, we respect your privacy. Information provided during checkout is strictly used for order fulfillment.
             </p>
         </section>
 
     </main>
 
-    <!-- Professional Footer with Logo -->
-    <footer class="bg-slate-900 text-gray-300 py-10 mt-16 border-t border-slate-800">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+    <!-- Professional Footer -->
+    <footer class="bg-slate-900 text-gray-300 py-8 mt-8 border-t border-slate-800 text-sm">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
             <div>
-                <h3 class="text-xl font-bold text-amber-400 mb-3 flex items-center justify-center md:justify-start gap-2">
+                <h3 class="font-bold text-amber-400 mb-2 flex items-center justify-center md:justify-start gap-2 text-base">
                     <div class="brand-logo w-7 h-7 rounded-lg bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center shadow">
                         <svg class="w-4 h-4 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C12 8 8 12 2 12C8 12 12 16 12 22C12 16 16 12 22 12C16 12 12 8 12 2Z"/>
@@ -191,28 +189,26 @@
                     </div> 
                     Mobile Hub 92
                 </h3>
-                <p class="text-sm text-gray-400 leading-relaxed">
-                    Your reliable choice for premium mobile accessories in Karachi. Smart shopping with direct WhatsApp checkout.
-                </p>
+                <p class="text-gray-400 text-xs">Minimum order limit for parcel delivery is Rs. 2,000.</p>
             </div>
             <div>
-                <h4 class="text-md font-bold text-white mb-3 uppercase tracking-wider">Quick Links</h4>
-                <ul class="space-y-2 text-sm">
+                <h4 class="font-bold text-white mb-2 uppercase tracking-wider text-xs">Quick Links</h4>
+                <ul class="space-y-1 text-xs">
                     <li><button onclick="switchTab('home')" class="hover:text-amber-400 transition">Shop Products</button></li>
                     <li><button onclick="switchTab('cart')" class="hover:text-amber-400 transition">Shopping Cart</button></li>
                 </ul>
             </div>
             <div>
-                <h4 class="text-md font-bold text-white mb-3 uppercase tracking-wider">Information</h4>
-                <ul class="space-y-2 text-sm">
+                <h4 class="font-bold text-white mb-2 uppercase tracking-wider text-xs">Information</h4>
+                <ul class="space-y-1 text-xs">
                     <li><button onclick="switchTab('about')" class="hover:text-amber-400 transition">About Us</button></li>
                     <li><button onclick="switchTab('contact')" class="hover:text-amber-400 transition">Contact Us</button></li>
                     <li><button onclick="switchTab('privacy')" class="hover:text-amber-400 transition">Privacy Policy</button></li>
                 </ul>
             </div>
         </div>
-        <div class="container mx-auto px-4 pt-8 mt-8 border-t border-slate-800 text-center text-xs text-gray-500">
-            <p>&copy; 2026 Mobile Hub 92. All rights reserved. Designed for Smart E-Commerce.</p>
+        <div class="container mx-auto px-4 pt-6 mt-6 border-t border-slate-800 text-center text-xs text-gray-500">
+            <p>&copy; 2026 Mobile Hub 92. All rights reserved.</p>
         </div>
     </footer>
 
@@ -291,12 +287,12 @@
                         <div class="overflow-hidden bg-gray-100 h-48 flex items-center justify-center">
                             <img src="${p.image}" alt="${p.name}" class="product-img w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/200?text=Accessory+Image'">
                         </div>
-                        <div class="p-5 flex flex-col flex-grow justify-between">
+                        <div class="p-4 flex flex-col flex-grow justify-between">
                             <div>
                                 <h3 class="font-bold text-gray-900 text-base mb-1">${p.name}</h3>
-                                <p class="text-blue-600 font-extrabold text-lg mb-4">Rs. ${p.price}</p>
+                                <p class="text-blue-600 font-extrabold text-lg mb-3">Rs. ${p.price}</p>
                             </div>
-                            <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-sm">
+                            <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm">
                                 Add to Cart 🛒
                             </button>
                         </div>
@@ -340,9 +336,10 @@
 
             list.innerHTML = '';
             if (cart.length === 0) {
-                list.innerHTML = `<p class="text-gray-500 text-center py-6">Your cart is currently empty.</p>`;
+                list.innerHTML = `<p class="text-gray-500 text-center py-4 text-xs">Your cart is currently empty.</p>`;
                 badge.innerText = `0`;
                 totalEl.innerText = `Rs. 0`;
+                validateCheckout();
                 return;
             }
 
@@ -350,19 +347,19 @@
                 totalQty += item.qty;
                 grandTotal += item.price * item.qty;
                 list.innerHTML += `
-                    <div class="py-4 flex items-center justify-between gap-4">
-                        <div class="flex items-center space-x-3">
-                            <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl border bg-gray-100" onerror="this.src='https://via.placeholder.com/100?text=Img'">
+                    <div class="py-3 flex items-center justify-between gap-3">
+                        <div class="flex items-center space-x-2.5">
+                            <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg border bg-gray-100" onerror="this.src='https://via.placeholder.com/100?text=Img'">
                             <div>
-                                <h4 class="font-bold text-gray-900 text-sm md:text-base">${item.name}</h4>
-                                <p class="text-xs md:text-sm text-gray-500">Rs. ${item.price} × ${item.qty} = <strong class="text-blue-600">Rs. ${item.price * item.qty}</strong></p>
+                                <h4 class="font-bold text-gray-900 text-xs">${item.name}</h4>
+                                <p class="text-[11px] text-gray-500">Rs. ${item.price} × ${item.qty} = <strong class="text-blue-600">Rs. ${item.price * item.qty}</strong></p>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="changeQty(${index}, 1)" class="bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-lg font-bold text-sm transition flex items-center justify-center">+</button>
-                            <span class="w-6 text-center font-semibold text-sm">${item.qty}</span>
-                            <button onclick="changeQty(${index}, -1)" class="bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-lg font-bold text-sm transition flex items-center justify-center">-</button>
-                            <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 font-bold text-xs ml-3">Remove</button>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="changeQty(${index}, 1)" class="bg-gray-100 hover:bg-gray-200 w-7 h-7 rounded-md font-bold text-xs transition flex items-center justify-center">+</button>
+                            <span class="w-5 text-center font-semibold text-xs">${item.qty}</span>
+                            <button onclick="changeQty(${index}, -1)" class="bg-gray-100 hover:bg-gray-200 w-7 h-7 rounded-md font-bold text-xs transition flex items-center justify-center">-</button>
+                            <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 font-bold text-[11px] ml-2">Remove</button>
                         </div>
                     </div>
                 `;
@@ -370,6 +367,7 @@
 
             badge.innerText = totalQty;
             totalEl.innerText = `Rs. ${grandTotal}`;
+            validateCheckout();
         }
 
         function changeQty(index, delta) {
@@ -385,27 +383,71 @@
             updateCartUI();
         }
 
+        function validateCheckout() {
+            let grandTotal = 0;
+            cart.forEach(item => {
+                grandTotal += item.price * item.qty;
+            });
+
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+            
+            const btn = document.getElementById('checkout-btn');
+            const warning = document.getElementById('min-order-warning');
+            const hint = document.getElementById('checkout-hint');
+
+            let isPriceValid = grandTotal >= 2000;
+            let isFormValid = name !== "" && phone !== "" && address !== "";
+
+            if (!isPriceValid && cart.length > 0) {
+                warning.classList.remove('hidden');
+            } else {
+                warning.classList.add('hidden');
+            }
+
+            if (isPriceValid && isFormValid && cart.length > 0) {
+                btn.removeAttribute('disabled');
+                btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'shadow-none');
+                btn.classList.add('bg-green-600', 'hover:bg-green-700', 'text-white', 'shadow-md');
+                hint.innerText = "آپ کا آرڈر دینے کے لیے بٹن تیار ہے!";
+                hint.classList.remove('text-gray-400');
+                hint.classList.add('text-green-600', 'font-bold');
+            } else {
+                btn.setAttribute('disabled', 'true');
+                btn.classList.remove('bg-green-600', 'hover:bg-green-700', 'text-white', 'shadow-md');
+                btn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'shadow-none');
+                
+                if (!isPriceValid) {
+                    hint.innerText = "کم از کم بل 2000 روپے ہونا ضروری ہے";
+                } else if (!isFormValid) {
+                    hint.innerText = "براہ کرم نام، فون اور مکمل ایڈریس درج کریں";
+                } else {
+                    hint.innerText = "کارٹ خالی ہے";
+                }
+                hint.classList.remove('text-green-600', 'font-bold');
+                hint.classList.add('text-gray-400');
+            }
+        }
+
         function checkoutWhatsApp() {
             const name = document.getElementById('cust-name').value.trim();
             const phone = document.getElementById('cust-phone').value.trim();
             const address = document.getElementById('cust-address').value.trim();
 
-            if (!name || !phone || !address) {
-                alert("براہ کرم اپنا نام، واٹس ایپ نمبر اور مکمل ایڈریس درج کریں!");
-                return;
-            }
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.qty;
+            });
 
-            if (cart.length === 0) {
-                alert("آپ کا کارٹ خالی ہے!");
+            if (total < 2000) {
+                alert("معذرت! پارسل بھیجنے کے لیے کم از کم آرڈر 2,000 روپے کا ہونا لازمی ہے۔");
                 return;
             }
 
             let itemsSummary = "";
-            let total = 0;
-
             cart.forEach(item => {
                 itemsSummary += `${item.name} (${item.qty}x), `;
-                total += item.price * item.qty;
             });
 
             const orderData = {
